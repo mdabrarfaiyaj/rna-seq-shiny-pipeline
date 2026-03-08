@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RNA-Seq Differential Expression Pipeline + Shiny Dashboard
 
 ![R](https://img.shields.io/badge/R-4.5.2-276DC3?style=flat&logo=r)
@@ -176,3 +177,4 @@ The Shiny dashboard accepts custom uploads:
 ## 📜 License
 
 MIT License — free to use and adapt with attribution.
+
