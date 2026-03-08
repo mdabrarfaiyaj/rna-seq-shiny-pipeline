@@ -1,0 +1,48 @@
+# HOMER Peaks
+# Peak finding parameters:
+# tag directory = Anat_WT_noLPS3
+#
+# total peaks = 8
+# peak size = 172
+# peaks found using tags on both strands
+# minimum distance between peaks = 344
+# fragment length = 300
+# genome size = 2000000000
+# Total tags = 5175164.5
+# Total tags in peaks = 222.5
+# Approximate IP efficiency = 0.00%
+# tags per bp = 0.002537
+# expected tags per peak = 0.436
+# maximum tags considered per bp = 1.0
+# effective number of tags used for normalization = 10000000.0
+# Peaks have been centered at maximum tag pile-up
+# FDR rate threshold = 0.001000000
+# FDR effective poisson threshold = 4.087217e-07
+# FDR tag threshold = 7.0
+# number of putative peaks = 20320
+#
+# input tag directory = Anat_WT_noLPS3
+# Fold over input required = 4.00
+# Poisson p-value over input required = 1.00e-04
+# Putative peaks filtered by input = 20310
+#
+# size of region used for local filtering = 10000
+# Fold over local region required = 4.00
+# Poisson p-value over local region required = 1.00e-04
+# Putative peaks filtered by local signal = 2
+#
+# Maximum fold under expected unique positions for tags = 2.00
+# Putative peaks filtered for being too clonal = 0
+#
+# cmd = findPeaks Anat_WT_noLPS3 -o Anat_WT_noLPS3.peaks.txt -style factor -fragLength 300 -i Anat_WT_noLPS3
+#
+# Column Headers:
+#PeakID	chr	start	end	strand	Normalized Tag Count	focus ratio	findPeaks Score	Total Tags	Control Tags (normalized to IP Experiment)	Fold Change vs Control	p-value vs Control	Fold Change vs Local	p-value vs Local	Clonal Fold Change
+chr9-13	chr9	3012484	3012656	+	255.1	0.931	95.000000	132.0	17.0	7.76	1.11e-69	11.54	5.25e-90	0.99
+chr18-119	chr18	82390331	82390503	+	50.2	0.771	31.500000	26.0	6.0	4.33	1.34e-09	41.27	8.02e-33	0.95
+chr14-311	chr14	69780217	69780389	+	29.0	0.944	14.500000	15.0	2.5	6.00	6.92e-08	59.11	6.91e-22	1.03
+chrX-342	chrX	166430033	166430205	+	22.2	0.659	11.500000	11.5	1.5	7.67	5.52e-07	7.73	5.09e-07	0.93
+chrX-343	chrX	166436041	166436213	+	21.3	0.711	11.500000	11.0	0.5	22.00	7.42e-12	4.97	2.09e-05	0.97
+chr2-1068	chr2	101498268	101498440	+	19.3	0.833	9.500000	10.0	0.5	20.00	1.63e-10	29.30	4.20e-12	1.03
+chr7-935	chr7	147164792	147164964	+	19.3	0.548	10.500000	10.0	2.0	5.00	4.65e-05	9.85	1.28e-07	0.97
+chr1-1405	chr1	140219378	140219550	+	13.5	0.694	7.000000	7.0	1.0	7.00	8.32e-05	19.51	1.06e-07	0.98

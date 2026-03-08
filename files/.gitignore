@@ -1,0 +1,58 @@
+# ============================================================
+# .gitignore for rna-seq-shiny-pipeline
+# ============================================================
+
+# --- R specific ---
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# --- Large GEO raw data files (too big for GitHub) ---
+# These are downloaded automatically by analysis_final.R
+files/data/GSE157234/
+files/data/RAW/
+files/data/*.tar
+files/data/*.tar.gz
+files/data/*.gz
+
+# --- Old/intermediate scripts (keep only final versions) ---
+files/00_download_data.R
+files/All_coding_script.R
+files/analysis.R
+files/analysis.final.R
+files/app.R
+files/latest_app.R
+files/local_test.R
+files/complete_analysis_pipeline.R
+files/blocks_5_6_corrected.R
+
+# --- Old intermediate data files ---
+files/data/count_matrix_clean.csv
+files/data/count_matrix_RAW.csv
+files/data/metadata_clean.csv
+
+# --- Keep these important files ---
+!files/data/count_matrix_48h_clean.csv
+!files/data/metadata_48h_clean.csv
+!files/results/DESeq2_results_Mutant_vs_Control.csv
+!files/results/top100_upregulated.csv
+!files/results/top100_downregulated.csv
+
+# --- Keep deploy folder completely ---
+!deploy/
+!deploy/app.R
+!deploy/manifest.json
+!deploy/data/
+!deploy/data/count_matrix_48h_clean.csv
+!deploy/data/metadata_48h_clean.csv
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Temp files ---
+*.tmp
+*.log
+Rplots.pdf

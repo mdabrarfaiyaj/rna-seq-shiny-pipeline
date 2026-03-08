@@ -1,0 +1,44 @@
+# HOMER Peaks
+# Peak finding parameters:
+# tag directory = Anat_WT_noLPS3_S15
+#
+# total peaks = 4
+# peak size = 172
+# peaks found using tags on both strands
+# minimum distance between peaks = 344
+# fragment length = 300
+# genome size = 2000000000
+# Total tags = 4665469.5
+# Total tags in peaks = 138.5
+# Approximate IP efficiency = 0.00%
+# tags per bp = 0.002289
+# expected tags per peak = 0.394
+# maximum tags considered per bp = 1.0
+# effective number of tags used for normalization = 10000000.0
+# Peaks have been centered at maximum tag pile-up
+# FDR rate threshold = 0.001000000
+# FDR effective poisson threshold = 2.061082e-07
+# FDR tag threshold = 7.0
+# number of putative peaks = 18447
+#
+# input tag directory = Anat_WT_noLPS3_S15
+# Fold over input required = 4.00
+# Poisson p-value over input required = 1.00e-04
+# Putative peaks filtered by input = 18441
+#
+# size of region used for local filtering = 10000
+# Fold over local region required = 4.00
+# Poisson p-value over local region required = 1.00e-04
+# Putative peaks filtered by local signal = 2
+#
+# Maximum fold under expected unique positions for tags = 2.00
+# Putative peaks filtered for being too clonal = 0
+#
+# cmd = findPeaks Anat_WT_noLPS3_S15 -o Anat_WT_noLPS3_S15.peaks.txt -style factor -fragLength 300 -i Anat_WT_noLPS3_S15
+#
+# Column Headers:
+#PeakID	chr	start	end	strand	Normalized Tag Count	focus ratio	findPeaks Score	Total Tags	Control Tags (normalized to IP Experiment)	Fold Change vs Control	p-value vs Control	Fold Change vs Local	p-value vs Local	Clonal Fold Change
+chr9-16	chr9	3012506	3012678	+	236.8	0.927	84.500000	110.5	12.5	8.84	1.21e-63	10.33	2.52e-70	0.98
+chrX-312	chrX	166436041	166436213	+	22.5	0.848	11.000000	10.5	1.0	10.50	1.11e-07	5.53	3.03e-05	0.93
+chr2-1084	chr2	101498270	101498442	+	19.3	0.900	8.500000	9.0	0.5	18.00	3.26e-09	27.07	9.82e-11	1.03
+chr19-261	chr19	6984344	6984516	+	18.2	0.544	9.500000	8.5	1.0	8.50	1.02e-05	8.67	7.92e-06	0.92
