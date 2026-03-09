@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # RNA-Seq Differential Expression Pipeline + Shiny Dashboard
 
 ![R](https://img.shields.io/badge/R-4.5.2-276DC3?style=flat&logo=r)
@@ -48,13 +48,13 @@ A complete, reproducible RNA-Seq differential expression analysis pipeline with 
 ## 🖼️ Screenshots
 
 ### Volcano Plot
-![Volcano Plot](plots/volcano_plot.png)
+![Volcano Plot](files/plots/volcano_plot.png)
 
 ### PCA Plot
-![PCA Plot](plots/pca_plot.png)
+![PCA Plot](files/plots/pca_plot.png)
 
 ### Heatmap
-![Heatmap](plots/heatmap_top50_DEGs.png)
+![Heatmap](files/plots/heatmap_top50_DEGs.png)
 
 ---
 
