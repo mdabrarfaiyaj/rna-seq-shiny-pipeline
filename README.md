@@ -13,7 +13,7 @@ A complete, reproducible RNA-Seq differential expression analysis pipeline with 
 
 ## 🚀 Live Demo
 
-**[Launch Dashboard →](https://connect.posit.cloud/rna-seq-shiny-pipeline)**
+**[Launch Dashboard →](https://019cd22f-689b-acc2-4b56-472725ef4a7b.share.connect.posit.cloud/)**
 
 > ⚠️ First load takes ~2 minutes — DESeq2 is running live on real data!
 
