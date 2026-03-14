@@ -136,6 +136,12 @@ shiny::runApp("files/app_final.R", launch.browser = TRUE)
 | Visualisation | ggplot2, pheatmap, plotly | Volcano, PCA, Heatmap |
 
 ---
+## ⚠️ Limitations
+
+**Note on input data:** DESeq2 was applied to UTAP-normalized counts 
+(the only publicly available format for GSE157234), which deviates 
+from the recommended raw count input. This is a data availability 
+constraint, not a pipeline design choice.
 
 ## 📈 Key Results
 
