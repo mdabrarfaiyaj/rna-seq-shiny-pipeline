@@ -1,4 +1,4 @@
-# Contributing to rna_seq_shinny_dashboard
+# Contributing to rna_seq_shinny_pipeline
 
 Thanks for being interested in this project!
 
