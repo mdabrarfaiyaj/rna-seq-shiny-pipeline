@@ -1,4 +1,4 @@
-# Contributing to RNA-seq DESeq2 Dashboard
+# Contributing to rna_seq_shinny_dashboard
 
 Thanks for being interested in this project!
 
