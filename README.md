@@ -168,7 +168,7 @@ The Shiny dashboard accepts custom uploads:
 
 [![GitHub](https://img.shields.io/badge/GitHub-mdabrarfaiyaj-black?logo=github)](https://github.com/mdabrarfaiyaj)
 
-🔬 **Services:** Bulk RNA-Seq (DESeq2, edgeR) · scRNA-Seq (Seurat) · Custom Shiny Dashboards · Pathway Enrichment (GSEA, GO, KEGG)
+🔬 **Services:** Bulk RNA-Seq (DESeq2, edgeR) · Custom Shiny Dashboards · Pathway Enrichment (GSEA, GO, KEGG)
 
 ---
 
