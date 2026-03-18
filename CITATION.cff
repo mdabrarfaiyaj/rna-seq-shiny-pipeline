@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Faiyaj
+    given-names: Md. Abrar
+    orcid: "https://orcid.org/0009-0005-9646-4508"
+title: "RNA-Seq Differential Expression Pipeline + Shiny Dashboard"
+version: 1.0.0
+date-released: 2025-03-07
+url: "https://github.com/mdabrarfaiyaj/rna-seq-shiny-pipeline"
+repository-code: "https://github.com/mdabrarfaiyaj/rna-seq-shiny-pipeline"
+license: MIT
+abstract: "A reproducible bulk RNA-seq differential expression pipeline 
+  replicating Shemer et al. 2020 (GSE157234) with interactive 
+  Shiny dashboard."
+keywords:
+  - rna-seq
+  - deseq2
+  - bioinformatics
+  - shiny
+  - microglia
+  - reproducibility
