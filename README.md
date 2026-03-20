@@ -179,7 +179,15 @@ The Shiny dashboard accepts custom uploads:
 **DOI:** [10.1016/j.immuni.2020.09.018](https://doi.org/10.1016/j.immuni.2020.09.018)
 
 ---
+## 📖 Citation
 
+If you use this pipeline, please cite:
+
+Faiyaj, M.A. (2026). RNA-Seq Differential Expression 
+Pipeline + Shiny Dashboard (v1.0.0). Zenodo. 
+https://doi.org/10.5281/zenodo.19138922
+
+---
 ## 📜 License
 
 MIT License — free to use and adapt with attribution.
