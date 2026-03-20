@@ -1,4 +1,4 @@
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19138922.svg)](https://doi.org/10.5281/zenodo.19138922)
 # RNA-Seq Differential Expression Pipeline + Shiny Dashboard
 
 ![R](https://img.shields.io/badge/R-4.5.2-276DC3?style=flat&logo=r)
