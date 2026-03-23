@@ -7,19 +7,17 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Dataset](https://img.shields.io/badge/GEO-GSE157234-red)
 
-A complete, reproducible RNA-Seq differential expression analysis pipeline with an interactive Shiny dashboard. Built using real published data from **Shemer et al., Immunity 2020**.
-
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 **[Launch Dashboard →](https://019cd22f-689b-acc2-4b56-472725ef4a7b.share.connect.posit.cloud/)**
 
-> ⚠️ First load takes ~2 minutes — DESeq2 is running live on real data!
+> ⚠️ First load takes ~2 minutes — DESeq2 is running live on real data.
 
 ---
 
-## 🧬 Biological Question
+## Biological Question
 
 > What happens to microglia when they lose the ability to sense IL-10 after an immune challenge?
 
@@ -32,7 +30,7 @@ A complete, reproducible RNA-Seq differential expression analysis pipeline with 
 
 ---
 
-## 📊 Dashboard Features
+## Dashboard Features
 
 | Feature | Description |
 |---|---|
@@ -45,7 +43,7 @@ A complete, reproducible RNA-Seq differential expression analysis pipeline with 
 
 ---
 
-## 🖼️ Screenshots
+## Screenshots
 
 ### Volcano Plot
 ![Volcano Plot](files/plots/volcano_plot.png)
@@ -58,7 +56,7 @@ A complete, reproducible RNA-Seq differential expression analysis pipeline with 
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 rna-seq-shiny-pipeline/
@@ -91,7 +89,7 @@ rna-seq-shiny-pipeline/
 
 ---
 
-## ⚙️ How to Run Locally
+## How to Run Locally
 
 ### 1. Clone the repository
 ```bash
@@ -121,7 +119,7 @@ shiny::runApp("files/app_final.R", launch.browser = TRUE)
 
 ---
 
-## 🔬 Methods
+## Methods
 
 | Step | Tool | Details |
 |---|---|---|
@@ -136,25 +134,29 @@ shiny::runApp("files/app_final.R", launch.browser = TRUE)
 | Visualisation | ggplot2, pheatmap, plotly | Volcano, PCA, Heatmap |
 
 ---
-## ⚠️ Limitations
 
-**Note on input data:** DESeq2 was applied to UTAP-normalized counts 
-(the only publicly available format for GSE157234), which deviates 
-from the recommended raw count input. This is a data availability 
-constraint, not a pipeline design choice.
+## Honest Limitations
 
-## 📈 Key Results
+The raw FASTQ files for GSE157234 were not deposited on GEO — only UTAP-normalized counts were publicly available. This means DESeq2 was applied to pre-normalized data rather than true raw counts, which deviates from the recommended workflow. I want to be clear that this was a data availability constraint, not a pipeline design choice.
+
+Because of this, my DEG counts (669 up / 894 down) differ from the paper's reported figures (954 up / 693 down), including an up/down ratio flip. The PCA results still independently confirm the paper's core biological conclusions, but the DEG-level differences are real and I have documented them openly rather than adjusting parameters to force agreement.
+
+I am currently working on a V2 of this pipeline starting from raw FASTQs via SRA, which will address this limitation properly.
+
+---
+
+## Key Results
 
 | Direction | Genes | Biological Meaning |
 |---|---|---|
 | ⬆️ Upregulated in Mutant | *Tnf*, *Ccl5*, *Il12b*, *Il6*, *Il1b* | Pro-inflammatory hyperactivation |
 | ⬇️ Downregulated in Mutant | *P2ry12*, *Sall1*, *Tmem119* | Loss of homeostatic microglia identity |
 
-**Conclusion:** Loss of IL-10 receptor signalling prevents microglia from returning to ground state after LPS challenge — consistent with Figure 3 of the paper (~954 upregulated, ~693 downregulated genes at 48h).
+**Conclusion:** Loss of IL-10 receptor signalling prevents microglia from returning to ground state after LPS challenge — consistent with the biological conclusions of Figure 3 of the paper.
 
 ---
 
-## 📤 Use This Pipeline for Your Own Data
+## Use This Pipeline for Your Own Data
 
 The Shiny dashboard accepts custom uploads:
 - **Count matrix** — CSV, rows = genes, columns = samples, raw integer counts
@@ -162,33 +164,24 @@ The Shiny dashboard accepts custom uploads:
 
 ---
 
-## 👤 Author
-
-**Md. Abrar Faiyaj** — Bioinformatics Analyst
-
-[![GitHub](https://img.shields.io/badge/GitHub-mdabrarfaiyaj-black?logo=github)](https://github.com/mdabrarfaiyaj)
-
-🔬 **Services:** Bulk RNA-Seq (DESeq2, edgeR) · Custom Shiny Dashboards · Pathway Enrichment (GSEA, GO, KEGG)
-
 ---
 
-## 📄 Dataset Reference
+## Dataset Reference
 
 **GEO:** [GSE157234](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE157234)  
 **Paper:** Shemer A et al. *Interleukin-10 Prevents Pathological Microglia Hyperactivation following Peripheral Endotoxin Challenge.* Immunity. 2020;53(5):1033–1049.  
 **DOI:** [10.1016/j.immuni.2020.09.018](https://doi.org/10.1016/j.immuni.2020.09.018)
 
 ---
-## 📖 Citation
+
+## Citation
 
 If you use this pipeline, please cite:
 
-Faiyaj, M.A. (2026). RNA-Seq Differential Expression 
-Pipeline + Shiny Dashboard (v1.0.0). Zenodo. 
-https://doi.org/10.5281/zenodo.19138922
+Faiyaj, M.A. (2026). RNA-Seq Differential Expression Pipeline + Shiny Dashboard (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.19138922
 
 ---
-## 📜 License
+
+## License
 
 MIT License — free to use and adapt with attribution.
-
