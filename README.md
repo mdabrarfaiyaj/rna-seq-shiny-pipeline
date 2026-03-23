@@ -137,7 +137,7 @@ shiny::runApp("files/app_final.R", launch.browser = TRUE)
 
 ## Honest Limitations
 
-The raw FASTQ files for GSE157234 were not deposited on GEO — only UTAP-normalized counts were publicly available. This means DESeq2 was applied to pre-normalized data rather than true raw counts, which deviates from the recommended workflow. I want to be clear that this was a data availability constraint, not a pipeline design choice.
+The raw count matrix for GSE157234 was not deposited on GEO — only UTAP-normalized counts were publicly available.This means DESeq2 was applied to pre-normalized data rather than true raw counts, which deviates from the recommended workflow. I want to be clear that this was a data availability constraint, not a pipeline design choice.
 
 Because of this, my DEG counts (669 up / 894 down) differ from the paper's reported figures (954 up / 693 down), including an up/down ratio flip. The PCA results still independently confirm the paper's core biological conclusions, but the DEG-level differences are real and I have documented them openly rather than adjusting parameters to force agreement.
 
