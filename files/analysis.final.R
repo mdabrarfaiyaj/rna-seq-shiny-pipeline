@@ -147,7 +147,7 @@ cat("✓ Folders ready\n")
 #   GSE157234_RAW.tar — despite its name — contains ATAC-seq
 #   peak files (.peaks.txt), NOT RNA-seq counts. This is a known
 #   issue with GEO depositions where multiple data types share
-#   one accession (Cynthia Soto Cardinault noted this publicly).
+#   one accession.
 #   The correct RNA-seq file is the UTAP normalized counts file
 #   loaded in Block 5.
 #
@@ -716,7 +716,7 @@ cat("✓ PCA plot saved (PNG + PDF)\n")
 #   3. Values are capped at ±3 to prevent extreme outliers
 #      from compressing the colour scale
 #
-# WHY Z-SCORE? (Important for interviews!)
+# WHY Z-SCORE? 
 #   Without Z-scoring, a highly expressed gene (e.g. 10,000
 #   counts) would dominate the colour scale, making low-
 #   expressed genes invisible. Z-scoring puts all genes on
