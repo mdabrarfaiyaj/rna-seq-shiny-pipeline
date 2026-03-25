@@ -18,8 +18,8 @@
 #   3. Open app_final.R and click Run App in RStudio
 #
 # PATCH v1.0.1 (2026-03-24):
-#   - Removed setwd() — no hardcoded paths needed.
-#     Open via .Rproj; Shiny resolves paths from project root.
+#   - Removed setwd() — Shiny sets working directory to the app
+#     file location automatically; relative paths work correctly.
 #   - Added cooksCutoff=FALSE, independentFiltering=FALSE to
 #     results() call to match analysis_final.R and paper STAR Methods.
 #   - Fixed About tab services to reflect demonstrated work only.
@@ -433,7 +433,7 @@ server <- function(input, output, session) {
         
         incProgress(0.6, "Extracting results...")
         lvls  <- levels(meta_sub$condition)
-
+        
         # cooksCutoff=FALSE and independentFiltering=FALSE match
         # analysis_final.R and the paper's STAR Methods exactly.
         # Without these, the app and analysis script produce
