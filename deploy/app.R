@@ -1,18 +1,30 @@
-options(repos = BiocManager::repositories())
-
 # ============================================================
-# app_final.R - RNA-Seq DESeq2 Shiny Dashboard
-# Dataset: GSE157234 | Shemer et al., Immunity 2020
-#
-# KEY FIX: Demo button now reads pre-saved CSV files from
-#          analysis_final.R instead of re-processing RAW.tar.
-#
-# PREREQUISITE: Run analysis_final.R first so these exist:
-#   data/count_matrix_48h_clean.csv
-#   data/metadata_48h_clean.csv
+# app_final.R — RNA-Seq DESeq2 Interactive Shiny Dashboard
 # ============================================================
-
-
+# Dataset    : GSE157234 — Shemer et al., Immunity 2020
+# Comparison : IL10R-Mutant vs Control Microglia (48h post-LPS)
+# Author     : Md. Abrar Faiyaj
+# GitHub     : https://github.com/mdabrarfaiyaj/rna-seq-shiny-pipeline
+#
+# PREREQUISITE:
+#   Run analysis_final.R first. It saves:
+#     data/count_matrix_48h_clean.csv
+#     data/metadata_48h_clean.csv
+#   The demo button in this app reads those files.
+#
+# HOW TO RUN:
+#   1. Open this project via its .Rproj file in RStudio
+#   2. Run analysis_final.R to generate the demo data files
+#   3. Open app_final.R and click Run App in RStudio
+#
+# PATCH v1.0.1 (2026-03-24):
+#   - Removed setwd() — Shiny sets working directory to the app
+#     file location automatically; relative paths work correctly.
+#   - Added cooksCutoff=FALSE, independentFiltering=FALSE to
+#     results() call to match analysis_final.R and paper STAR Methods.
+#   - Fixed About tab services to reflect demonstrated work only.
+#   Reference: Bryan (2017) tidyverse.org/blog/2017/12/workflow-vs-script/
+# ============================================================
 
 shiny_pkgs <- c("shiny","shinydashboard","DT","plotly",
                 "ggrepel","pheatmap","dplyr","RColorBrewer",
@@ -274,12 +286,12 @@ ui <- dashboardPage(
                         href="https://github.com/mdabrarfaiyaj",
                         target="_blank")),
                     hr(),
-                    p(strong("Services:")),
+                    p(strong("This pipeline demonstrates:")),
                     tags$ul(
-                      tags$li("Bulk RNA-Seq (DESeq2, edgeR)"),
-                      tags$li("scRNA-Seq (Seurat)"),
-                      tags$li("Custom Shiny dashboards"),
-                      tags$li("Pathway enrichment (GSEA, GO, KEGG)")
+                      tags$li("Bulk RNA-Seq differential expression (DESeq2)"),
+                      tags$li("Interactive Shiny dashboard development"),
+                      tags$li("Reproducible bioinformatics pipeline design"),
+                      tags$li("GEO dataset reanalysis and replication")
                     )
                 )
               )
@@ -421,8 +433,16 @@ server <- function(input, output, session) {
         
         incProgress(0.6, "Extracting results...")
         lvls  <- levels(meta_sub$condition)
-        res   <- results(dds, contrast=c("condition",lvls[2],lvls[1]),
-                         alpha=0.05)
+        
+        # cooksCutoff=FALSE and independentFiltering=FALSE match
+        # analysis_final.R and the paper's STAR Methods exactly.
+        # Without these, the app and analysis script produce
+        # different DEG counts for the same data.
+        res   <- results(dds,
+                         contrast             = c("condition", lvls[2], lvls[1]),
+                         alpha                = 0.05,
+                         cooksCutoff          = FALSE,
+                         independentFiltering = FALSE)
         res_df       <- as.data.frame(res)
         res_df$gene  <- rownames(res_df)
         
