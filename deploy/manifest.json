@@ -3088,13 +3088,16 @@
   },
   "files": {
     "app.R": {
-      "checksum": "5df793c82c88e076dcab59cd4c99b69f"
+      "checksum": "82cc85695670a2a24f5234590984ab3e"
     },
     "data/count_matrix_48h_clean.csv": {
       "checksum": "644841613636f8784d90f54a6f06320e"
     },
     "data/metadata_48h_clean.csv": {
       "checksum": "04008a7e31561201ca9b941bd2138ba4"
+    },
+    "mainfest_json_coding_script.R": {
+      "checksum": "530b17a2a25b1656bbd47d4d1ef2ce76"
     }
   },
   "users": null
