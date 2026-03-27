@@ -1,4 +1,5 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19138922.svg)](https://doi.org/10.5281/zenodo.19138922)
+
 # RNA-Seq Differential Expression Pipeline + Shiny Dashboard
 
 ![R](https://img.shields.io/badge/R-4.5.2-276DC3?style=flat&logo=r)
@@ -6,6 +7,10 @@
 ![Shiny](https://img.shields.io/badge/Shiny-Dashboard-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Dataset](https://img.shields.io/badge/GEO-GSE157234-red)
+
+A reproducible RNA-seq differential expression pipeline with an interactive Shiny dashboard, built on real published data from **Shemer et al., Immunity 2020** (GSE157234).
+ 
+> **V2 in progress** — A fully independent replication starting from raw FASTQs via SRA (STAR alignment → featureCounts → DESeq2) is currently under development. See [Honest Limitations](#honest-limitations) for context.
 
 ---
 
@@ -57,12 +62,13 @@
 ---
 
 ## Repository Structure
-
+ 
 ```
 rna-seq-shiny-pipeline/
 │
 ├── README.md
 ├── .gitignore
+├── renv_setup.R                            # Run once to lock package environment
 │
 ├── files/                                  # Local analysis (run in RStudio)
 │   ├── analysis_final.R                    # Full DESeq2 pipeline
