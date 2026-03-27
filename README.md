@@ -92,33 +92,39 @@ rna-seq-shiny-pipeline/
         ├── count_matrix_48h_clean.csv
         └── metadata_48h_clean.csv
 ```
-
----
-
+```
 ## How to Run Locally
-
+ 
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/mdabrarfaiyaj/rna-seq-shiny-pipeline.git
 cd rna-seq-shiny-pipeline
 ```
-
-### 2. Install required packages
+ 
+### 2. Set up the reproducible environment
+```r
+# Run once — locks all package versions into renv.lock
+# In RStudio: Session → Set Working Directory → To Source File Location
+# Then run:
+source("renv_setup.R")
+```
+ 
+### 3. Install required packages
 ```r
 install.packages("BiocManager")
 BiocManager::install(c("DESeq2", "GEOquery", "SummarizedExperiment"))
-
+ 
 install.packages(c("shiny", "shinydashboard", "ggplot2", "ggrepel",
                    "pheatmap", "dplyr", "RColorBrewer", "plotly", "DT"))
 ```
-
-### 3. Run the analysis pipeline
+ 
+### 4. Run the analysis pipeline
 ```r
 # Downloads GEO data, runs DESeq2, saves all result files
 source("files/analysis_final.R")
 ```
-
-### 4. Launch the Shiny dashboard
+ 
+### 5. Launch the Shiny dashboard
 ```r
 shiny::runApp("files/app_final.R", launch.browser = TRUE)
 ```
