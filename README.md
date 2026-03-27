@@ -92,7 +92,7 @@ rna-seq-shiny-pipeline/
         ├── count_matrix_48h_clean.csv
         └── metadata_48h_clean.csv
 ```
-```
+
 ## How to Run Locally
  
 ### 1. Clone the repository
