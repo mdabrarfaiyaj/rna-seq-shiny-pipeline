@@ -318,57 +318,118 @@ server <- function(input, output, session) {
     )
   )
   
-  # ---- Load Demo: reads CSV files saved by analysis_final.R ----
+  # ---- Load Demo: RDS priority loading ----------------------
+  # WHY RDS PRIORITY?
+  #   If RDS objects exist (saved by Block 13 of analysis_final.R),
+  #   the app loads pre-computed DESeq2 results instantly (~1 sec).
+  #   This skips the 1-3 minute DESeq2 re-run entirely.
+  #   If RDS files are missing, falls back to CSV loading and
+  #   requires the user to click Run DESeq2 Analysis manually.
+  #
+  # This two-path approach ensures:
+  #   - Fast experience for users who ran analysis_final.R fully
+  #   - Still works for users who only have the CSV files
+  #   Reference: renv best practices — Ushey & Wickham (2024)
+  #   https://rstudio.github.io/renv/
   observeEvent(input$load_demo, {
-    withProgress(message="Loading pre-processed demo data...", {
+    withProgress(message="Loading demo data...", {
       tryCatch({
+        
+        rds_dds    <- "results/dds_object.rds"
+        rds_res    <- "results/deseq_results.rds"
+        rds_vsd    <- "results/vsd_object.rds"
+        rds_res_df <- "results/res_df.rds"
         count_file <- "data/count_matrix_48h_clean.csv"
         meta_file  <- "data/metadata_48h_clean.csv"
         
-        if (!file.exists(count_file))
-          stop(paste("File not found:", count_file,
-                     "\nPlease run analysis_final.R first."))
-        if (!file.exists(meta_file))
-          stop(paste("File not found:", meta_file,
-                     "\nPlease run analysis_final.R first."))
+        # ---- PATH 1: RDS files exist — load instantly --------
+        if (all(file.exists(rds_dds, rds_res, rds_vsd, rds_res_df))) {
+          
+          incProgress(0.3, "Loading pre-computed DESeq2 objects...")
+          dds_loaded    <- readRDS(rds_dds)
+          res_loaded    <- readRDS(rds_res)
+          vsd_loaded    <- readRDS(rds_vsd)
+          res_df_loaded <- readRDS(rds_res_df)
+          
+          incProgress(0.7, "Restoring reactive values...")
+          rv$counts   <- counts(dds_loaded)
+          rv$metadata <- as.data.frame(colData(dds_loaded))
+          rv$dds      <- dds_loaded
+          rv$vsd      <- vsd_loaded
+          rv$res_df   <- res_df_loaded
+          rv$ready    <- TRUE
+          
+          n_up   <- sum(res_df_loaded$significance == "Upregulated",   na.rm=TRUE)
+          n_down <- sum(res_df_loaded$significance == "Downregulated", na.rm=TRUE)
+          n_ctrl <- sum(rv$metadata$condition == "Control")
+          n_mut  <- sum(rv$metadata$condition == "Mutant")
+          
+          rv$log_text <- paste0(
+            "✓ Pre-computed results loaded instantly!\n",
+            "  Source: RDS objects from analysis_final.R\n\n",
+            "  Genes tested: ", nrow(res_df_loaded), "\n",
+            "  Control:      ", n_ctrl, " samples (48h post-LPS)\n",
+            "  Mutant:       ", n_mut,  " samples (48h post-LPS)\n",
+            "  Upregulated:  ", n_up,   " (padj<0.05, LFC>1)\n",
+            "  Downregulated:", n_down, " (padj<0.05, LFC< -1)\n\n",
+            "→ Plots are ready! Click any tab above."
+          )
+          showNotification("✓ Results loaded instantly from RDS!",
+                           type="message")
+          
+          # ---- PATH 2: Fallback — CSV loading ------------------
+        } else {
+          
+          if (!file.exists(count_file))
+            stop(paste("File not found:", count_file,
+                       "\nPlease run analysis_final.R first."))
+          if (!file.exists(meta_file))
+            stop(paste("File not found:", meta_file,
+                       "\nPlease run analysis_final.R first."))
+          
+          incProgress(0.3, "Reading count matrix from CSV...")
+          mat <- read.csv(count_file, row.names=1, check.names=FALSE)
+          mat <- round(as.matrix(mat))
+          storage.mode(mat) <- "integer"
+          mat[mat < 0] <- 0
+          
+          incProgress(0.6, "Reading metadata from CSV...")
+          meta <- read.csv(meta_file, row.names=1, stringsAsFactors=FALSE)
+          meta$condition <- factor(meta$condition,
+                                   levels=c("Control","Mutant"))
+          
+          shared <- intersect(colnames(mat), rownames(meta))
+          mat    <- mat[, shared]
+          meta   <- meta[shared, , drop=FALSE]
+          
+          rv$counts   <- mat
+          rv$metadata <- meta
+          rv$ready    <- FALSE
+          
+          n_ctrl <- sum(meta$condition=="Control")
+          n_mut  <- sum(meta$condition=="Mutant")
+          
+          rv$log_text <- paste0(
+            "✓ Demo data loaded from CSV (fallback mode)\n",
+            "  Genes:   ", nrow(mat),"\n",
+            "  Samples: ", ncol(mat),"\n",
+            "  Control: ", n_ctrl," samples (48h post-LPS)\n",
+            "  Mutant:  ", n_mut, " samples (48h post-LPS)\n\n",
+            "⚠ RDS files not found — DESeq2 must be re-run.\n",
+            "→ Click 'Run DESeq2 Analysis' to proceed.\n",
+            "  Tip: Run Block 13 of analysis_final.R to save\n",
+            "  RDS files for instant loading next time."
+          )
+          showNotification("Demo loaded (CSV fallback — run DESeq2 to proceed)",
+                           type="warning")
+        }
         
-        incProgress(0.3, "Reading count matrix...")
-        mat <- read.csv(count_file, row.names=1, check.names=FALSE)
-        mat <- round(as.matrix(mat))
-        storage.mode(mat) <- "integer"
-        mat[mat < 0] <- 0
-        
-        incProgress(0.6, "Reading metadata...")
-        meta <- read.csv(meta_file, row.names=1, stringsAsFactors=FALSE)
-        meta$condition <- factor(meta$condition,
-                                 levels=c("Control","Mutant"))
-        
-        shared <- intersect(colnames(mat), rownames(meta))
-        mat    <- mat[, shared]
-        meta   <- meta[shared, , drop=FALSE]
-        
-        rv$counts   <- mat
-        rv$metadata <- meta
-        rv$ready    <- FALSE
-        
-        n_ctrl <- sum(meta$condition=="Control")
-        n_mut  <- sum(meta$condition=="Mutant")
-        
-        rv$log_text <- paste0(
-          "✓ Demo data loaded!\n",
-          "  Genes:   ", nrow(mat),"\n",
-          "  Samples: ", ncol(mat),"\n",
-          "  Control: ", n_ctrl," samples (48h post-LPS)\n",
-          "  Mutant:  ", n_mut, " samples (48h post-LPS)\n\n",
-          "→ Click 'Run DESeq2 Analysis' to proceed!"
-        )
-        showNotification("Demo data loaded!", type="message")
         incProgress(1.0)
         
       }, error=function(e) {
-        rv$log_text <- paste0("ERROR: ",e$message,
+        rv$log_text <- paste0("ERROR: ", e$message,
                               "\n\nFix: Run analysis_final.R first.")
-        showNotification(paste("Error:",e$message),
+        showNotification(paste("Error:", e$message),
                          type="error", duration=15)
       })
     })
