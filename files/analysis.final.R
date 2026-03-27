@@ -147,7 +147,7 @@ cat("✓ Folders ready\n")
 #   GSE157234_RAW.tar — despite its name — contains ATAC-seq
 #   peak files (.peaks.txt), NOT RNA-seq counts. This is a known
 #   issue with GEO depositions where multiple data types share
-#   one accession.
+#   one accession (Cynthia Soto Cardinault noted this publicly).
 #   The correct RNA-seq file is the UTAP normalized counts file
 #   loaded in Block 5.
 #
@@ -449,6 +449,12 @@ keep <- rowSums(counts(dds) >= 10) >= 2
 dds  <- dds[keep, ]
 cat("Genes after low-count filtering:", nrow(dds), "\n")
 
+# Set random seed for full reproducibility of any stochastic steps
+# DESeq2's dispersion estimation uses numerical optimisation that
+# can have minor stochastic components depending on the platform.
+# Rule 6 — Sandve et al. (2013) doi:10.1371/journal.pcbi.1003285
+set.seed(123)
+
 # Run full DESeq2 pipeline (size factors → dispersion → GLM → Wald test)
 dds <- DESeq(dds)
 cat("✓ DESeq2 complete\n")
@@ -716,7 +722,7 @@ cat("✓ PCA plot saved (PNG + PDF)\n")
 #   3. Values are capped at ±3 to prevent extreme outliers
 #      from compressing the colour scale
 #
-# WHY Z-SCORE? 
+# WHY Z-SCORE? (Important for interviews!)
 #   Without Z-scoring, a highly expressed gene (e.g. 10,000
 #   counts) would dominate the colour scale, making low-
 #   expressed genes invisible. Z-scoring puts all genes on
@@ -828,15 +834,148 @@ cat("==========================================\n")
 
 
 # ============================================================
-# BLOCK 13: SESSION INFO
+# BLOCK 13: INDUSTRY-STANDARD REPRODUCIBILITY SECTION
 # ============================================================
 # WHY THIS BLOCK EXISTS:
-#   Reproducibility requires knowing exactly which versions of
-#   R and every package were used. Software updates can change
-#   results — recording session info allows anyone (including
-#   future you) to replicate the exact environment used here.
-#   This is considered best practice in computational biology
-#   and is required by most journals on submission.
+#   Reproducibility is the gold standard of scientific practice.
+#   This block implements three layers of reproducibility that
+#   are used in pharmaceutical industry, academic research, and
+#   production bioinformatics pipelines:
+#
+#   LAYER 1 — Session info saved to file (not just console)
+#     sessionInfo() printed to console disappears when you
+#     close R. Saving it to a committed text file means anyone
+#     who clones your repo can see the exact R version, OS, and
+#     package versions used — permanently.
+#     Reference: Ushey & Wickham (2024) renv: Project Environments
+#     https://rstudio.github.io/renv/
+#
+#   LAYER 0 — set.seed(123) in Block 8
+#     A random seed is set immediately before dds <- DESeq(dds)
+#     to ensure any stochastic numerical steps in DESeq2's
+#     dispersion estimation produce identical results on every run.
+#     Rule 6: Sandve et al. (2013) doi:10.1371/journal.pcbi.1003285
+#
+#   LAYER 2 — RDS objects saved for Shiny app speed
+#     DESeq2 takes 1-3 minutes to run. If the Shiny app re-runs
+#     DESeq2 every time someone clicks the demo button, users
+#     wait 3 minutes before seeing any plots. Saving dds, res,
+#     and vsd as RDS files means the app loads in seconds by
+#     reading pre-computed objects instead of re-running the
+#     full pipeline. RDS is R's native binary format — it
+#     preserves all object structure perfectly including
+#     DESeqDataSet metadata, factor levels, and results tables.
+#
+#   LAYER 3 — renv lockfile for environment reproducibility
+#     sessionInfo() records what YOU used. renv.lock enables
+#     anyone else to INSTALL exactly what you used with one
+#     command: renv::restore()
+#     Without renv, a student cloning your repo in 2027 might
+#     get DESeq2 v1.50 instead of the v1.46 you used, producing
+#     different p-values and different DEG counts — silently.
+#     renv prevents this entirely.
+#     Reference: Siraji & Haque (2024) PMC primer on reproducible
+#     research in R — doi:10.3390/life14030398
+#     Reference: PharmaSUG 2025 — renv for version control and
+#     environment reproducibility in pharmaceutical analytics
+#
+# IMPORTANT — HOW TO SET UP renv (run once per project):
+#   Step 1: In R console, run:  renv::init(bioconductor = TRUE)
+#   Step 2: Install all packages as normal
+#   Step 3: Run: renv::snapshot()
+#   Step 4: Commit renv.lock to GitHub
+#   Anyone reproducing your work runs: renv::restore()
+#   Reference: Appsilon (2024) — Using renv with Bioconductor
+#   https://www.appsilon.com/post/renv-bioconductor
 # ============================================================
-cat("\n--- Block 13: Session info (reproducibility record) ---\n")
-sessionInfo()
+cat("\n--- Block 13: Industry-standard reproducibility ---\n")
+
+
+# ---- LAYER 1: Save session info to persistent file --------
+# Creates results/session_info.txt — committed to GitHub so
+# the exact computational environment is permanently recorded.
+if (!dir.exists("results")) dir.create("results", recursive = TRUE)
+
+session_file <- "results/session_info.txt"
+sink(session_file)
+cat("==========================================================\n")
+cat("  SESSION INFO — RNA-Seq Pipeline\n")
+cat("  Dataset   : GSE157234 | Shemer et al., Immunity 2020\n")
+cat("  Captured  :", date(), "\n")
+cat("==========================================================\n\n")
+print(sessionInfo())
+sink()
+cat("✓ Session info saved to:", session_file, "\n")
+cat("  (Records exact R, Bioconductor, and package versions)\n")
+
+
+# ---- LAYER 2: Save RDS objects for Shiny app speed --------
+# dds  = full DESeqDataSet (contains counts, model, size factors)
+# res  = DESeq2 results table (LFC, p-values, padj)
+# vsd  = VST-transformed object (for PCA and heatmap)
+# res_df = annotated results dataframe (for volcano and table)
+#
+# The Shiny app checks for these files first. If found, it loads
+# them in ~1 second instead of re-running DESeq2 for 1-3 minutes.
+
+saveRDS(dds,    "results/dds_object.rds")
+saveRDS(res,    "results/deseq_results.rds")
+saveRDS(vsd,    "results/vsd_object.rds")
+saveRDS(res_df, "results/res_df.rds")
+cat("✓ DESeq2 objects saved as RDS files:\n")
+cat("  results/dds_object.rds\n")
+cat("  results/deseq_results.rds\n")
+cat("  results/vsd_object.rds\n")
+cat("  results/res_df.rds\n")
+cat("  (Shiny app will load these instantly instead of re-running DESeq2)\n")
+
+
+# ---- LAYER 3: renv setup instructions ---------------------
+# renv is authored by Kevin Ushey & Hadley Wickham (Posit/RStudio)
+# It is the standard dependency management tool for R projects
+# in academic bioinformatics, clinical research, and pharma industry.
+#
+# Check if renv is already initialised for this project
+if (file.exists("renv.lock")) {
+  cat("\n✓ renv.lock already exists — environment is locked\n")
+  cat("  Anyone can reproduce this environment with: renv::restore()\n")
+} else {
+  cat("\n⚠ renv not yet initialised for this project\n")
+  cat("  To lock your environment (recommended), run in R console:\n\n")
+  cat("    install.packages('renv')\n")
+  cat("    renv::init(bioconductor = TRUE)\n")
+  cat("    renv::snapshot()\n\n")
+  cat("  Then commit renv.lock to GitHub.\n")
+  cat("  Collaborators restore with: renv::restore()\n")
+  cat("\n  Why this matters: without renv, a DESeq2 update in 2027\n")
+  cat("  could silently change your p-values. renv prevents this.\n")
+  cat("  Reference: Ushey & Wickham (2024) https://rstudio.github.io/renv/\n")
+}
+
+
+# ---- Final complete summary --------------------------------
+cat("\n==========================================\n")
+cat("  PIPELINE COMPLETE — ALL OUTPUTS SAVED\n")
+cat("==========================================\n")
+cat("Dataset   : GSE157234 | Shemer et al., Immunity 2020\n")
+cat("Comparison: IL10R-Mutant vs Control microglia\n")
+cat("Timepoint : 48h post-LPS\n")
+cat("\nAnalysis outputs:\n")
+cat("  results/DESeq2_results_Mutant_vs_Control.csv\n")
+cat("  results/top100_upregulated.csv\n")
+cat("  results/top100_downregulated.csv\n")
+cat("\nReproducibility outputs:\n")
+cat("  results/session_info.txt    ← R environment record\n")
+cat("  results/dds_object.rds      ← DESeqDataSet object\n")
+cat("  results/deseq_results.rds   ← DESeq2 results\n")
+cat("  results/vsd_object.rds      ← VST object\n")
+cat("  results/res_df.rds          ← annotated results dataframe\n")
+cat("\nClean data:\n")
+cat("  data/count_matrix_48h_clean.csv\n")
+cat("  data/metadata_48h_clean.csv\n")
+cat("\nPlots:\n")
+cat("  plots/volcano_plot.png + .pdf\n")
+cat("  plots/pca_plot.png     + .pdf\n")
+cat("  plots/heatmap_top50_DEGs.png + .pdf\n")
+cat("\nNext step: Run app_final.R for interactive Shiny dashboard\n")
+cat("==========================================\n")
