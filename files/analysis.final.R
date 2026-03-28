@@ -874,8 +874,8 @@ cat("==========================================\n")
 #     get DESeq2 v1.50 instead of the v1.46 you used, producing
 #     different p-values and different DEG counts — silently.
 #     renv prevents this entirely.
-#     Reference: Siraji & Haque (2024) PMC primer on reproducible
-#     research in R — doi:10.3390/life14030398
+#     Reference: Siraji & Haque (2024), PMC, Primer on reproducible
+#     research in R — doi:10.3390/clockssleep6010001
 #     Reference: PharmaSUG 2025 — renv for version control and
 #     environment reproducibility in pharmaceutical analytics
 #
