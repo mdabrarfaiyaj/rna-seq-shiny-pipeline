@@ -1,0 +1,10 @@
+# Install/update rsconnect if needed
+install.packages("rsconnect")
+
+library(rsconnect)
+
+# Generate the manifest for V2 (point to the correct app file)
+rsconnect::writeManifest(
+  appDir = ".",                    # root of your project
+  appPrimaryDoc = "deploy/app_v2.R"   # or "files/app_v2.R" if you prefer
+)
