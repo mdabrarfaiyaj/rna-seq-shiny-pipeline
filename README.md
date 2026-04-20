@@ -41,23 +41,23 @@ The complete V2 workflow from raw sequencing reads to differential expression re
 
 ```mermaid
 flowchart TD
-    A[📥 Download raw FASTQs from SRA\nGSE157234 — 9 samples via Galaxy] --> B
+    A[📥 Download raw FASTQs from SRA — 9 samples via Galaxy] --> B
 
-    B[🔍 FastQC + MultiQC\nPer-sample quality assessment\nCheck read quality, adapter content, duplication] --> C
+    B[🔍 FastQC + MultiQC\nPer-sample quality assessment, Check read quality, adapter content, duplication] --> C
 
-    C[✂️ Trimmomatic\nAdapter trimming + quality filtering\nRemove low-quality bases and reads] --> D
+    C[✂️ Trimmomatic,Adapter trimming + quality filtering, Remove low-quality bases and reads] --> D
 
-    D[🧬 HISAT2 Alignment\nMap trimmed reads to mm10 genome\nNCSBI RefSeq annotation] --> E
+    D[🧬 HISAT2 Alignment, Map trimmed reads to mm10 genome, NCSBI RefSeq annotation] --> E
 
-    E{✅ Check Mapping Rate\nAcceptable: > 80% per sample} --> F
+    E{✅ Check Mapping Rate,Acceptable: > 80% per sample} --> F
 
-    F[📊 Post-Alignment QC\nSamtools flagstat\nVerify alignment statistics] --> G
+    F[📊 Post-Alignment QC,Samtools flagstat, Verify alignment statistics] --> G
 
-    G[🔢 featureCounts\nCount reads per gene\nAll exons, Entrez Gene IDs] --> H
+    G[🔢 featureCounts,Count reads per gene,All exons, Entrez Gene IDs] --> H
 
-    H[📈 DESeq2 Differential Expression\nNormalization → Dispersion → GLM → Wald test\napeglm LFC shrinkage] --> I
+    H[📈 DESeq2 Differential Expression,Normalization → Dispersion → GLM → Wald test\napeglm LFC shrinkage] --> I
 
-    I[🖼️ Visualisation\nVolcano Plot · PCA Plot · Heatmap\nShiny Interactive Dashboard]
+    I[🖼️ Visualisation,Volcano Plot · PCA Plot · Heatmap,Shiny Interactive Dashboard]
 
     style A fill:#3498db,color:#fff
     style B fill:#9b59b6,color:#fff
