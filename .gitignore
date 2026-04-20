@@ -1,0 +1,10 @@
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj.user
+renv/library/
+renv/staging/
+results/v2/*.rds
+*.log
+deploy/manifest_v2.json
