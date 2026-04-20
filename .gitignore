@@ -8,3 +8,4 @@ renv/staging/
 results/v2/*.rds
 *.log
 deploy/manifest_v2.json
+!deploy/results/v2/*.rds
