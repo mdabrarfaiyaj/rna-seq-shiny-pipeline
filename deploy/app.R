@@ -24,7 +24,7 @@
 
 shiny_pkgs <- c("shiny","shinydashboard","DT","plotly",
                 "ggrepel","pheatmap","dplyr","RColorBrewer",
-                "ggplot2","DESeq2")
+                "ggplot2","DESeq2","apeglm")
 for (pkg in shiny_pkgs) {
   if (!requireNamespace(pkg, quietly=TRUE)) install.packages(pkg)
 }
@@ -32,7 +32,7 @@ for (pkg in shiny_pkgs) {
 library(shiny);        library(shinydashboard)
 library(DESeq2);       library(ggplot2);  library(ggrepel)
 library(pheatmap);     library(dplyr);    library(DT)
-library(RColorBrewer); library(plotly)
+library(RColorBrewer); library(plotly);library(apeglm)
 
 
 # ============================================================
@@ -212,8 +212,8 @@ ui <- dashboardPage(
                 box(width=12, title="PCA: Sample Clustering", status="primary",
                     p("Mutant (red triangles) should separate clearly from ",
                       "Control (blue circles) along PC1 — confirms strong ",
-                      "hyperactivation effect at 48h post-LPS. ",
-                      "PC1 axis flipped for visual consistency with paper Figure 3B."),
+                      "hyperactivation effect at 48h post-LPS. "),
+                  
                     fluidRow(
                       column(3,downloadButton("dl_pca_png","Download PNG",
                                               class="btn-sm")),
@@ -700,7 +700,7 @@ server <- function(input, output, session) {
       geom_text_repel(aes(label=name), size=2.5, max.overlaps=20) +
       labs(title   ="PCA: IL10R-Mutant vs Control (48h post-LPS)",
            subtitle="V2 — True Raw Counts | VST-transformed",
-           x=paste0("PC1: ", pct_var[1], "% variance (flipped)"),
+           x=paste0("PC1: ", pct_var[1], "% variance"),
            y=paste0("PC2: ", pct_var[2], "% variance"),
            caption ="PC1 axis direction flipped for visual consistency with Figure 3B") +
       theme_bw(base_size=13) +
