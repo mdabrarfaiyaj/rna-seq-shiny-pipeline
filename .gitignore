@@ -1,15 +1,21 @@
-
+# R environment files
 .Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
 *.Rproj.user
+
+# renv internals
 renv/library/
 renv/staging/
+
+# Block RDS files everywhere EXCEPT deploy/
 results/v2/*.rds
-*.log
-deploy/manifest_v2.json
+
+# Allow RDS files inside deploy/ for Posit Cloud
+# NOTE: The parent folder must NOT be ignored for this to work
+deploy/results/
 !deploy/results/v2/*.rds
 
-
-
+*.logRNA_Seq_Generated_token.txt
+Finally_Solve_The_Problem
