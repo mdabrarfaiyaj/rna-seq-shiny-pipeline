@@ -294,7 +294,7 @@ renv::restore()
 
 **Md. Abrar Faiyaj**
 MSc Biotechnology (Thesis Track) | Junior Research Collaborator, ABCD Laboratory
-BRAC University, Dhaka, Bangladesh
+|  BRAC University, Dhaka, Bangladesh
 
 [![GitHub](https://img.shields.io/badge/GitHub-mdabrarfaiyaj-black?logo=github)](https://github.com/mdabrarfaiyaj)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0005--9646--4508-green)](https://orcid.org/0009-0005-9646-4508)
